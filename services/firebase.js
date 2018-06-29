@@ -1,11 +1,12 @@
 const firebase = require('firebase');
+const config = require('./../config');
 
 require('firebase/firestore');
 
 firebase.initializeApp({
-  apiKey: 'AIzaSyAHVe8i9Pa4tnch-TPIdLNE9ZtfC2qY2a8',
-  authDomain: 'chatio-206515.firebaseapp.com',
-  projectId: 'chatio-206515'
+  apiKey: config.firebase_api_key,
+  authDomain: config.firebase_auth_domain,
+  projectId: config.firebase_project_id
 });
 
 // Initialize Cloud Firestore through Firebase

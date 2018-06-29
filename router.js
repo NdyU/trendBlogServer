@@ -29,13 +29,18 @@ module.exports = function(app) {
     res.send('Welcome');
   });
 
+
+  app.get('/login', auth.login);
+  app.get('/logout', auth.logout);
+
   //Google oauth entry point
   app.get('/auth/google', passport.authenticate('google', {scope: 'https://www.googleapis.com/auth/plus.login'}));
   //Google oauth callback route
   app.get('/auth/google/callback',
     requireAuth,
-    auth.signIn
+    auth.googleAuthCallback
   );
 
   app.get('/isAuth', auth.isAuth);
+
 }

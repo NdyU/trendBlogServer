@@ -5,9 +5,11 @@ const firebase_db = require('./firebase');
 
 const jwt = require('jwt-simple');
 
+const config = require('./../config');
+
 passport.use(new GoogleStrategy({
-    clientID: "310052927146-86lrm9vp0afr0e4330dkdsn1evqdqrvu.apps.googleusercontent.com",
-    clientSecret: "gLlFnyG15E6g5aClxtuGqplv",
+    clientID: config.google_oauth_client_id,
+    clientSecret: config.google_oauth_client_secret,
     callbackURL: "/auth/google/callback"
   },
   function(accessToken, refreshToken, profile, done) {

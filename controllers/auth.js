@@ -2,7 +2,15 @@ const jwt = require('jwt-simple');
 const config = require('./../config');
 const firebase_db = require('../services/firebase');
 
-exports.signIn = function(req, res, next) {
+exports.login = function(req, res, next) {
+  var token = req.cookies['authorization'];
+  if(token) {
+    res.send('redirecting to client app');
+  } else {
+    res.redirect('/auth/google');
+  }
+}
+exports.googleAuthCallback = function(req, res, next) {
 
   console.log("Login Success");
 
@@ -17,7 +25,8 @@ exports.signIn = function(req, res, next) {
   res.cookie('authorization', token, {expires : new Date(Date.now() + 1000*60*60*24*30)});
 
   //redirect back to client app
-  res.redirect(config.client.url);
+  // res.redirect(config.client.url);
+  res.send('Redirecting to client app');
 }
 
 exports.isAuth = function(req, res, next) {
@@ -72,9 +81,9 @@ exports.logout = function(req, res, next) {
   if(token) {
     var payload = jwt.decode(token, config.secret);
 
-    var doc_id = payload.sub;
+    var user_id = payload.sub;
 
-    firebase_db.collection('users').doc(doc_id).delete().then(function() {
+    firebase_db.collection('users').doc(user_id).delete().then(function() {
       //Kill the cookie by setting the expire date to NOW
       res.cookie('authorization', token, {expires : new Date(Date.now())});
       res.send('A user have log out');
